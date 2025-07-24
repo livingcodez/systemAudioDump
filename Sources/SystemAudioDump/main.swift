@@ -44,8 +44,10 @@ struct SystemAudioDump {
       // 3) Build a stream config that only captures audio
       let cfg = SCStreamConfiguration()
       cfg.capturesAudio = true
-      cfg.captureMicrophone = false
-      cfg.excludesCurrentProcessAudio = true  // don't capture our own output
+        if #available(macOS 15, *) {
+            cfg.captureMicrophone = false
+        }
+        cfg.excludesCurrentProcessAudio = true  // don't capture our own output
       print("Created configuration")
 
       // 4) Create and start the stream
